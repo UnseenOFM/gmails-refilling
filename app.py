@@ -1,28 +1,25 @@
 from flask import Flask, jsonify, request
-from names_dataset import NameDataset
 import random
 import string
-import re
+
 app = Flask(__name__)
 
-def is_latin(s):
-    return re.match(r'^[a-zA-Z]+$', s) is not None
-
-def generate_realistic_gmail(nd):
-    # Filtrer les prénoms et noms latins uniquement
-    latin_first_names = [name for name in nd.first_names.keys() if is_latin(name)]
-    latin_last_names = [name for name in nd.last_names.keys() if is_latin(name)]
-    first_name = random.choice(latin_first_names)
-    last_name = random.choice(latin_last_names)
-    numbers = ''.join(random.choices(string.digits, k=random.randint(2, 3)))
-    email = f"{first_name.lower()}.{last_name.lower()}{numbers}@gmail.com"
-    return email
+def load_names(filename):
+    with open(filename, "r", encoding="utf-8") as f:
+        return [line.strip() for line in f if line.strip()]
 
 @app.route('/generate_gmails')
 def generate_gmails():
-    n = int(request.args.get('n', 10))  # nombre d'emails à générer, par défaut 10
-    nd = NameDataset()
-    gmails = [generate_realistic_gmail(nd) for _ in range(n)]
+    n = int(request.args.get('n', 10))
+    firstnames = load_names("firstnames.txt")
+    lastnames = load_names("lastnames.txt")
+    gmails = []
+    for _ in range(n):
+        firstname = random.choice(firstnames)
+        lastname = random.choice(lastnames)
+        numbers = ''.join(random.choices(string.digits, k=random.randint(2, 3)))
+        email = f"{firstname.lower()}{lastname.lower()}{numbers}@gmail.com"
+        gmails.append(email)
     return jsonify({"emails": gmails})
 
 if __name__ == '__main__':
