@@ -1,0 +1,4 @@
+selenium
+pyperclip
+flask
+git+https://github.com/philipperemy/name-dataset.git
