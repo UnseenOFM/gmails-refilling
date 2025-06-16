@@ -46,7 +46,5 @@ def generate_gmails():
     return jsonify({"emails": gmails})
 
 if __name__ == '__main__':
-    import os
-    port = int(os.environ.get("PORT", 8000))
-    print(f"[INFO] Lancement de l'application Flask sur 0.0.0.0:{port}")
-    app.run(host='0.0.0.0', port=port)
+    print("[INFO] Lancement de l'application Flask sur 0.0.0.0:8000")
+    app.run(host='0.0.0.0', port=8000)
