@@ -38,8 +38,8 @@ def generate_gmails():
     for _ in range(n):
         firstname = random.choice(firstnames)
         lastname = random.choice(lastnames)
-        numbers = ''.join(random.choices(string.digits, k=random.randint(0, 3)))
-        email = f"{firstname.lower()}{lastname.lower()}{numbers}@gmail.com"
+        numbers = ''.join(random.choices(string.digits, k=random.randint(0, 2)))
+        email = f"{firstname.lower()}.{lastname.lower()}{numbers}@gmail.com"
         gmails.append(email)
 
     print(f"[DEBUG] ✔ {len(gmails)} adresses générées avec succès.")
